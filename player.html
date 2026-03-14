@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch Anime - FreeWatch</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <a class="brand" href="index.html">FreeWatch</a>
+      <a class="back-link" id="backToDetails" href="index.html">← Back</a>
+    </header>
+
+    <main class="container">
+      <section class="player-layout">
+        <div class="player-head">
+          <h1 id="playerTitle">Anime Player</h1>
+          <p id="playerMeta"></p>
+        </div>
+
+        <form id="playerForm" class="player-form">
+          <label>
+            AniList ID
+            <input id="anilistId" type="number" min="1" required />
+          </label>
+
+          <label>
+            Episode
+            <input id="episodeNumber" type="number" min="1" required />
+          </label>
+
+          <label>
+            Sub/Dub
+            <select id="subOrDub">
+              <option value="sub">sub</option>
+              <option value="dub">dub</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn">Load Player</button>
+        </form>
+
+        <div class="video-wrap">
+          <iframe
+            id="animeFrame"
+            title="Anime video player"
+            frameborder="0"
+            scrolling="no"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+    </main>
+
+    <script src="player.js" type="module"></script>
+  </body>
+</html>

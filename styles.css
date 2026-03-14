@@ -1,0 +1,263 @@
+:root {
+  --bg: #0f1220;
+  --panel: #1b2040;
+  --soft: #252c54;
+  --text: #f3f5ff;
+  --muted: #b6bddf;
+  --accent: #7c90ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(160deg, #080a14, #111735 50%, #161f3f);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  backdrop-filter: blur(8px);
+  background: rgb(11 16 33 / 80%);
+  border-bottom: 1px solid #2b3566;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.search-wrap {
+  display: flex;
+  width: min(640px, 100%);
+  gap: 0.5rem;
+}
+
+input,
+select,
+button {
+  border-radius: 10px;
+  border: 1px solid #3a4580;
+  background: #151b39;
+  color: var(--text);
+  padding: 0.65rem 0.8rem;
+}
+
+.search-wrap input {
+  flex: 1;
+}
+
+button,
+.btn {
+  cursor: pointer;
+  background: linear-gradient(130deg, #5f74f5, #8898ff);
+  border: 0;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container {
+  width: min(1200px, 95%);
+  margin: 1.25rem auto 2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero {
+  background: var(--panel);
+  border: 1px solid #2f3b75;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.hero-carousel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-slides {
+  min-height: 250px;
+}
+
+.hero-slide {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 0.8rem;
+}
+
+.hero-slide img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+}
+
+.section-head p {
+  color: var(--muted);
+}
+
+.anime-grid {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.anime-card {
+  background: var(--panel);
+  border: 1px solid #344079;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 0.8rem;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.card-sub {
+  margin: 0.4rem 0 0.8rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+}
+
+.btn-secondary {
+  background: #303968;
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.details-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1rem;
+  background: var(--panel);
+  border: 1px solid #2f3b75;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.details-layout img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.episode-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.7rem;
+}
+
+.episode-btn {
+  display: block;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid #39468a;
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.7rem;
+  border-radius: 10px;
+}
+
+.player-form {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.player-form label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.video-wrap {
+  margin-top: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #324081;
+  min-height: 70vh;
+}
+
+#animeFrame {
+  width: 100%;
+  height: 70vh;
+  background: black;
+}
+
+.back-link {
+  color: #c5ceff;
+  text-decoration: none;
+}
+
+@media (max-width: 760px) {
+  .hero-slide,
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-slide img {
+    height: 220px;
+  }
+}
