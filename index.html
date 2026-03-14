@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreeWatch Anime</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <a class="brand" href="index.html">FreeWatch</a>
+      <form id="searchForm" class="search-wrap">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search anime titles..."
+          aria-label="Search anime"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-header">
+          <h1>Stream Trending Anime</h1>
+          <p>Discover fresh episodes and jump right into watching.</p>
+        </div>
+        <div id="heroCarousel" class="hero-carousel">
+          <button id="heroPrev" class="icon-btn" aria-label="Previous hero slide">&lt;</button>
+          <div id="heroSlides" class="hero-slides"></div>
+          <button id="heroNext" class="icon-btn" aria-label="Next hero slide">&gt;</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2 id="listTitle">Recent Episodes</h2>
+          <p id="resultMeta"></p>
+        </div>
+        <div id="animeGrid" class="anime-grid"></div>
+
+        <div class="pager">
+          <button id="prevPage" class="icon-btn">&lt;</button>
+          <span id="pageLabel">Page 1</span>
+          <button id="nextPage" class="icon-btn">&gt;</button>
+        </div>
+      </section>
+    </main>
+
+    <template id="animeCardTemplate">
+      <article class="anime-card">
+        <img class="card-image" alt="Anime cover" loading="lazy" />
+        <div class="card-content">
+          <h3 class="card-title"></h3>
+          <p class="card-sub"></p>
+          <div class="card-actions">
+            <a class="btn details-link">Details</a>
+            <a class="btn btn-secondary watch-link">Watch</a>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
