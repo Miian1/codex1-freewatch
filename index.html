@@ -727,9 +727,10 @@
     // =============================
     // API CONFIG (replace with your own secure backend in production)
     // =============================
-    const OPENROUTER_API_KEY = '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';
+    const OPENROUTER_API_KEY = ''; // Optional: paste your OpenRouter key here for live AI
     const OPENROUTER_MODEL = 'qwen/qwen3-next-80b-a3b-instruct:free';
     const TMDB_API_KEY = '1475916a8cbcba7ea4b901d22ac46e7e';
+    const FORCE_MOCK_AI = false; // true => always use curated local AI responses
 
     const ui = {
       body: document.body,
@@ -760,6 +761,19 @@
       { title: 'Everything Everywhere All at Once', reason: 'Mind-bending creativity with heartfelt core.' },
       { title: 'Interstellar', reason: 'Epic scale, philosophical depth, and emotional intensity.' }
     ];
+
+    const localAiReplies = [
+      'Love that vibe. I blended cerebral, emotional, and visually immersive picks for your mood.',
+      'Great prompt. Here are movies that match your tone, pacing, and emotional intensity.',
+      'You gave me a strong cinematic signal—these suggestions should feel spot-on.'
+    ];
+
+    const useRemoteAI = () => {
+      if (FORCE_MOCK_AI) return false;
+      if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.startsWith('sk-or-v1-58e929')) return false;
+      if (location.protocol === 'file:') return false;
+      return true;
+    };
 
     const addMessage = (text, type = 'ai', html = false) => {
       const bubble = document.createElement('div');
@@ -857,9 +871,7 @@ Give 5-8 varied movie suggestions.`;
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': location.origin,
-          'X-Title': 'CineAI'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           model: OPENROUTER_MODEL,
@@ -872,10 +884,27 @@ Give 5-8 varied movie suggestions.`;
         })
       });
 
-      if (!response.ok) throw new Error('AI request failed');
+      if (!response.ok) {
+        const details = await response.text().catch(() => '');
+        throw new Error(`AI request failed (${response.status}) ${details.slice(0, 120)}`);
+      }
       const data = await response.json();
       const content = data?.choices?.[0]?.message?.content?.trim() || '';
       return normalizeAiOutput(content);
+    };
+
+    const queryLocalAi = (prompt) => {
+      const terms = prompt.toLowerCase();
+      const filtered = fallbackPicks.filter((movie) => {
+        if (terms.includes('sad')) return /melanch|emotional|beautiful/i.test(movie.reason);
+        if (terms.includes('mind') || terms.includes('interstellar')) return /mind|sci-fi|philosoph/i.test(movie.reason);
+        return true;
+      });
+
+      return {
+        reply: localAiReplies[Math.floor(Math.random() * localAiReplies.length)],
+        movies: (filtered.length ? filtered : fallbackPicks).slice(0, 6),
+      };
     };
 
     const getMovieDetails = async (title) => {
@@ -978,7 +1007,7 @@ Give 5-8 varied movie suggestions.`;
       ui.sendBtn.disabled = true;
 
       try {
-        const ai = await queryOpenRouter(prompt);
+        const ai = useRemoteAI() ? await queryOpenRouter(prompt) : queryLocalAi(prompt);
         removeTypingIndicator();
         addMessage(ai.reply, 'ai');
 
@@ -990,7 +1019,7 @@ Give 5-8 varied movie suggestions.`;
         removeTypingIndicator();
         typingNode?.remove();
 
-        const fallbackText = 'I hit a network glitch, so I picked curated recommendations for you.';
+        const fallbackText = 'Live AI is unavailable right now, so I switched to CineAI local mode with curated recommendations.';
         addMessage(fallbackText, 'ai');
 
         const enrichedFallback = await enrichMovies(fallbackPicks);
@@ -1033,7 +1062,10 @@ Give 5-8 varied movie suggestions.`;
     // Boot sequence
     sparkleParticles();
     installCursorGlow();
-    addMessage('👋 Hi! I\'m CineAI. Tell me your mood, a genre, or a movie you love, and I\'ll recommend your next watch.', 'ai');
+    const startupMode = useRemoteAI()
+      ? 'Live AI mode is active.'
+      : 'Running in local mode (no valid OpenRouter key or opened via file://).';
+    addMessage(`👋 Hi! I\'m CineAI. Tell me your mood, a genre, or a movie you love, and I\'ll recommend your next watch.\n${startupMode}`, 'ai');
   </script>
 </body>
 </html>
